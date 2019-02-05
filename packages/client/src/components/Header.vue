@@ -6,7 +6,11 @@
       <v-spacer></v-spacer>
 
       <!-- Buttons -->
-      <v-toolbar-items></v-toolbar-items>
+      <v-toolbar-items>
+        <v-btn icon>
+          <v-icon>mdi-settings</v-icon>
+        </v-btn>
+      </v-toolbar-items>
     </v-toolbar>
   </div>
 </template>

@@ -1,8 +1,8 @@
 <template>
-  <v-content>
+  <v-content class="pt-5">
     <v-container fluid fill-height>
       <v-layout align-center justify-center>
-        <v-flex xs12 sm8 md4>
+        <v-flex xs12 sm8 md6 lg4>
           <!-- Card -->
           <v-card class="elevation-12">
             <v-toolbar dark>
@@ -43,6 +43,7 @@ export default class Home extends Vue {
   private username: string = '';
 
   private onLoginClicked() {
+    console.log('Login clicked!');
     // TODO: implement logic
   }
 }
