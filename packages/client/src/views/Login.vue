@@ -23,10 +23,9 @@
               </v-form>
             </v-card-text>
 
-            <v-card-actions>
-              <v-spacer></v-spacer>
-
-              <v-btn dark @click="onLoginClicked()">Login</v-btn>
+            <v-card-actions class="px-3 pb-3">
+              <v-spacer/>
+              <v-btn small outline @click="onLoginClicked()">Login</v-btn>
             </v-card-actions>
           </v-card>
         </v-flex>

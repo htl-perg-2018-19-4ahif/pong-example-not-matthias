@@ -16,6 +16,16 @@ export default new Router({
       path: '/',
       name: 'home',
       component: () => import('@/views/Home.vue')
+    },
+    {
+      path: '/new_lobby',
+      name: 'new_lobby',
+      component: () => import('@/views/NewLobby.vue')
+    },
+    {
+      path: '/join_lobby',
+      name: 'join_lobby',
+      component: () => import('@/views/Lobbies.vue')
     }
   ]
 });
