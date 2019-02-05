@@ -11,7 +11,7 @@
 
             <v-card-text>
               <v-text-field prepend-icon="mdi-account" label="Name" type="text" v-model="name"></v-text-field>
-              <v-text-field prepend-icon="mdi-lock" label="Password" type="text" v-model="name"></v-text-field>
+              <!-- <v-text-field prepend-icon="mdi-lock" label="Password" type="text" v-model="name"></v-text-field> -->
             </v-card-text>
 
             <v-card-actions class="pt-0 px-3 pb-3">
