@@ -1,11 +1,13 @@
 <template>
-  <div>
-    <Header/>
+  <v-app>
+    <v-content>
+      <Header/>
 
-    <router-view/>
+      <router-view/>
 
-    <Footer/>
-  </div>
+      <Footer/>
+    </v-content>
+  </v-app>
 </template>
 
 <script lang="ts">

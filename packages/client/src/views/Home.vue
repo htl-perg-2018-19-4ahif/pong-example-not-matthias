@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1>Home</h1>
+    <h1 class>Home</h1>
     <v-icon>mdi-account-remove</v-icon>
   </div>
 </template>
