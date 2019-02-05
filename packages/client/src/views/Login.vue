@@ -43,7 +43,6 @@ export default class Home extends Vue {
   private username: string = '';
 
   private onLoginClicked() {
-    console.log('Login clicked!');
     // TODO: implement logic
   }
 }
