@@ -3,7 +3,7 @@ import { IPlayer } from '../interfaces/player';
 import { players } from '../store';
 
 export class LoginHandler {
-  private player: IPlayer = { username: '' };
+  private player: IPlayer = { name: '' };
 
   /**
    * Initializes the handlers.
@@ -16,15 +16,15 @@ export class LoginHandler {
 
   /**
    * Player wants to login.
-   * @param data the player data
+   * @param player the player data
    */
-  onLogin(data: IPlayer) {
+  onLogin(player: IPlayer) {
     console.log(`[${this.socket.client.id}] onLogin called.`);
 
     //
     // Check username
     //
-    if (!data.username) {
+    if (!player.name) {
       this.socket.emit('invalid_username');
       return;
     }
@@ -32,7 +32,7 @@ export class LoginHandler {
     //
     // Check if username in use
     //
-    if (players.filter((player) => player.username === data.username).length !== 0) {
+    if (players.filter((player) => player.name === player.name).length !== 0) {
       this.socket.emit('username_existing');
       return;
     }
@@ -43,7 +43,7 @@ export class LoginHandler {
     this.socket.emit('logged_in');
 
     // Add the user to the list
-    players.push((this.player = data));
+    players.push((this.player = player));
   }
 
   /**

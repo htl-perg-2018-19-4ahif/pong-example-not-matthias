@@ -2,6 +2,7 @@ import express from 'express';
 import socket from 'socket.io';
 import { LoginHandler } from './handlers/LoginHandler';
 import { players } from './store';
+import { LobbyHandler } from './handlers/LobbyHandler';
 
 //
 // Variables
@@ -34,6 +35,7 @@ io.on('connection', (socket) => {
   // Create handlers
   //
   const loginHandler = new LoginHandler(io, socket);
+  const lobbyHandler = new LobbyHandler(io, socket);
 
   //
   // onDisconnect

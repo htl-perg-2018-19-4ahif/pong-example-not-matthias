@@ -1,3 +1,3 @@
 export interface IPlayer {
-  username: string;
+  name: string;
 }

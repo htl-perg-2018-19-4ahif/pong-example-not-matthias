@@ -66,7 +66,7 @@ export default class Login extends Vue {
    * Button handler for the login button
    */
   private onLoginClicked() {
-    this.$socket.emit('login', { username: this.username });
+    this.$socket.emit('login', { name: this.username });
   }
 
   //

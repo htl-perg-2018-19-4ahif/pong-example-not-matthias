@@ -31,8 +31,37 @@ import { Component, Vue } from 'vue-property-decorator';
 export default class Home extends Vue {
   private name: string = '';
 
+  /**
+   * Register handlers
+   */
+  private created() {
+    this.$socket.on('created_lobby', this.onLobbyCreated);
+    this.$socket.on('lobby_existing', this.onLobbyExisting);
+    this.$socket.on('invalid_lobby_name', this.onInvalidLobbyName);
+  }
+
+  /**
+   * Button handler for the create button
+   */
   private onCreateLobbyClicked() {
-    // TODO: implement logic
+    this.$socket.emit('create_lobby', { name: this.name });
+  }
+
+  //
+  // Server reponse handlers
+  //
+  private onLobbyCreated() {
+    this.$router.push({ name: 'queue' });
+  }
+
+  private onLobbyExisting() {
+    // TODO: show proper error message
+    alert('Lobby already existing.');
+  }
+
+  private onInvalidLobbyName() {
+    // TODO: show proper error message
+    alert('Invalid lobby name.');
   }
 }
 </script>
