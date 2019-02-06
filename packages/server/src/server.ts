@@ -1,7 +1,7 @@
 import express from 'express';
 import socket from 'socket.io';
-import { Server } from 'https';
 import { LoginHandler } from './handlers/LoginHandler';
+import { players } from './store';
 
 //
 // Variables
@@ -30,12 +30,17 @@ const io: socket.Server = socket(server);
 io.on('connection', (socket) => {
   console.log(`[${socket.client.id}] Connection established.`);
 
+  //
   // Create handlers
+  //
   const loginHandler = new LoginHandler(io, socket);
 
+  //
+  // onDisconnect
+  //
   socket.on('disconnect', () => {
     console.log(`[${socket.client.id}] Connection lost.`);
 
-    loginHandler.disconnect();
+    loginHandler.onDisconnect();
   });
 });

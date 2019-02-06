@@ -10,22 +10,21 @@
             </v-toolbar>
 
             <v-card-text>
-              <v-form>
-                <v-text-field
-                  prepend-icon="mdi-account"
-                  label="Username"
-                  v-model="username"
-                  type="text"
-                ></v-text-field>
+              <v-text-field
+                prepend-icon="mdi-account"
+                label="Username"
+                v-model="username"
+                type="text"
+                required
+              ></v-text-field>
 
-                <!-- <v-text-field
+              <!-- <v-text-field
                   id="password"
                   prepend-icon="lock"
                   name="password"
                   label="Password"
                   type="password"
-                ></v-text-field>-->
-              </v-form>
+              ></v-text-field>-->
             </v-card-text>
 
             <v-card-actions class="px-3 pb-3">
@@ -82,10 +81,12 @@ export default class Login extends Vue {
 
   private onUsernameExisting() {
     console.log('[DEBUG] Username existing.');
+    // TODO: show error message
   }
 
   private onInvalidUsername() {
     console.log('[DEBUG] Invalid username.');
+    // TODO: show error message
   }
 }
 </script>
