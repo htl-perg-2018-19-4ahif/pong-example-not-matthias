@@ -7,6 +7,11 @@
           <v-card class="elevation-12">
             <v-toolbar dark>
               <v-toolbar-title>Lobbies</v-toolbar-title>
+
+              <v-spacer></v-spacer>
+              <v-btn icon @click="onLobbyRefreshClicked()">
+                <v-icon>mdi-refresh</v-icon>
+              </v-btn>
             </v-toolbar>
 
             <v-card-text class="pt-4 px-4 pb-3">
@@ -19,21 +24,13 @@
                 hide-headers
                 class="elevation-1"
               >
-                <!-- Custom header -->
-                <template slot="headerCell" slot-scope="props">
-                  <v-tooltip bottom>
-                    <span slot="activator">{{ props.header }}</span>
-                    <span>{{ props.header.text }}</span>
-                  </v-tooltip>
-                </template>
-
                 <!-- Items -->
                 <template slot="items" slot-scope="props">
                   <td>{{ props.item.name }}</td>
                   <td class="text-xs-right hidden-sm-and-down">{{ props.item.createdBy }}</td>
                   <td class="text-xs-right">{{ props.item.slots }}</td>
-                  <td class>
-                    <div class="text-xs-center">
+                  <td class="text-xs-right">
+                    <div>
                       <v-btn icon small @click="onEditLobbyClicked()">
                         <!-- TODO: Only show if the current person is the creator -->
                         <v-icon>mdi-pencil</v-icon>
@@ -127,6 +124,9 @@ export default class Home extends Vue {
     return Math.ceil(this.pagination.totalItems / this.pagination.rowsPerPage);
   }
 
+  private onLobbyRefreshClicked() {
+    // TODO: implement logic
+  }
   private onEditLobbyClicked() {
     // TODO: implement logic
   }
