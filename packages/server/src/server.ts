@@ -26,7 +26,9 @@ const io = socket(server);
 // Socket connection
 //
 io.on('connection', (socket) => {
-  console.log(`[DEBUG] Connection established with client ${socket.client.id}.`);
+  console.log(`[${socket.client.id}] Connection established.`);
 
-  // TODO: add socket handlers here
+  socket.on('disconnect', (data) => {
+    console.log(`[${socket.client.id}] Connection lost.`);
+  });
 });
