@@ -20,7 +20,12 @@ import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class Header extends Vue {
-  private name: string = 'My Blog';
+  /**
+   * Redirect user to login page if not authenticated.
+   */
+  created() {
+    if (!this.$store.getters.loggedIn) this.$router.push({ name: 'login' });
+  }
 }
 </script>
 

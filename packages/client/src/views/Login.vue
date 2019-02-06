@@ -60,8 +60,6 @@ export default class Login extends Vue {
    * Check if already logged in
    */
   async mounted() {
-    console.log(this.$store.getters.loggedIn);
-
     if (this.$store.getters.loggedIn) this.$router.push({ name: 'home' });
   }
 
