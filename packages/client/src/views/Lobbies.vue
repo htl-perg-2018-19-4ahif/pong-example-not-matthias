@@ -34,15 +34,15 @@
                   <td class="text-xs-right">{{ props.item.slots }}</td>
                   <td class>
                     <div class="text-xs-center">
-                      <v-btn icon small>
+                      <v-btn icon small @click="onEditLobbyClicked()">
                         <!-- TODO: Only show if the current person is the creator -->
                         <v-icon>mdi-pencil</v-icon>
                       </v-btn>
-                      <v-btn icon small>
+                      <v-btn icon small @click="onDeleteLobbyClicked()">
                         <!-- TODO: Only show if the current person is the creator -->
                         <v-icon>mdi-delete</v-icon>
                       </v-btn>
-                      <v-btn icon small>
+                      <v-btn icon small @click="onJoinLobbyClicked()">
                         <v-icon>mdi-play</v-icon>
                       </v-btn>
                     </div>
@@ -125,6 +125,14 @@ export default class Home extends Vue {
     }
 
     return Math.ceil(this.pagination.totalItems / this.pagination.rowsPerPage);
+  }
+
+  private onEditLobbyClicked() {
+    // TODO: implement logic
+  }
+
+  private onDeleteLobbyClicked() {
+    // TODO: implement logic
   }
 
   private onJoinLobbyClicked() {
