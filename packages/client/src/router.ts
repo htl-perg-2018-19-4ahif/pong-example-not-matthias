@@ -28,6 +28,11 @@ export default new Router({
       component: () => import('@/views/Lobbies.vue')
     },
     {
+      path: '/queue',
+      name: 'queue',
+      component: () => import('@/views/Queue.vue')
+    },
+    {
       path: '*',
       name: '404',
       component: () => import('./views/PageNotFound.vue')
