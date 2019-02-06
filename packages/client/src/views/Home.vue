@@ -32,15 +32,15 @@ import { Component, Vue } from 'vue-property-decorator';
 @Component
 export default class Home extends Vue {
   private onJoinQueueClicked() {
-    // TODO: implement logic
+    this.$router.push({ name: 'queue' });
   }
 
   private onCreateLobbyClicked() {
-    // TODO: implement logic
+    this.$router.push({ name: 'new_lobby' });
   }
 
   private onJoinLobbyClicked() {
-    // TODO: implement logic
+    this.$router.push({ name: 'lobbies' });
   }
 }
 </script>
