@@ -26,6 +26,11 @@ export default new Router({
       path: '/lobbies',
       name: 'lobbies',
       component: () => import('@/views/Lobbies.vue')
+    },
+    {
+      path: '*',
+      name: '404',
+      component: () => import('./views/PageNotFound.vue')
     }
   ]
 });
