@@ -12,6 +12,7 @@ Vue.prototype.$socket = socket;
 // Stylesheets
 import 'vuetify/dist/vuetify.min.css';
 import '@mdi/font/css/materialdesignicons.min.css';
+import 'material-design-icons-iconfont/dist/material-design-icons.css';
 
 // Import the plugins
 Vue.use(Vuetify);

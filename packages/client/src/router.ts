@@ -23,8 +23,8 @@ export default new Router({
       component: () => import('@/views/NewLobby.vue')
     },
     {
-      path: '/join_lobby',
-      name: 'join_lobby',
+      path: '/lobbies',
+      name: 'lobbies',
       component: () => import('@/views/Lobbies.vue')
     }
   ]
