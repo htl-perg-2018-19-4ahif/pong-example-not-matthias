@@ -57,6 +57,15 @@ export default class Login extends Vue {
   }
 
   /**
+   * Check if already logged in
+   */
+  async mounted() {
+    console.log(this.$store.getters.loggedIn);
+
+    if (this.$store.getters.loggedIn) this.$router.push({ name: 'home' });
+  }
+
+  /**
    * Button handler for the login button
    */
   private onLoginClicked() {
@@ -70,6 +79,7 @@ export default class Login extends Vue {
     console.log('[DEBUG] Logged in.');
 
     this.$router.push({ name: 'home' });
+    this.$store.dispatch('login', this.username);
   }
 
   private onUsernameExisting() {
