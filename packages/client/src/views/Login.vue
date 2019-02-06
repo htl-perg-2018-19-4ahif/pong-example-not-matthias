@@ -11,7 +11,12 @@
 
             <v-card-text>
               <v-form>
-                <v-text-field prepend-icon="mdi-account" label="Username" type="text"></v-text-field>
+                <v-text-field
+                  prepend-icon="mdi-account"
+                  label="Username"
+                  v-model="username"
+                  type="text"
+                ></v-text-field>
 
                 <!-- <v-text-field
                   id="password"
@@ -36,13 +41,43 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { mapState } from 'vuex';
 
 @Component
 export default class Login extends Vue {
   private username: string = '';
 
+  /**
+   * Register handlers
+   */
+  private created() {
+    this.$socket.on('logged_in', this.onLogin);
+    this.$socket.on('username_existing', this.onUsernameExisting);
+    this.$socket.on('invalid_username', this.onInvalidUsername);
+  }
+
+  /**
+   * Button handler for the login button
+   */
   private onLoginClicked() {
-    // TODO: implement logic
+    this.$socket.emit('login', { username: this.username });
+  }
+
+  //
+  // Server reponse handlers
+  //
+  private onLogin() {
+    console.log('[DEBUG] Logged in.');
+
+    this.$router.push({ name: 'home' });
+  }
+
+  private onUsernameExisting() {
+    console.log('[DEBUG] Username existing.');
+  }
+
+  private onInvalidUsername() {
+    console.log('[DEBUG] Invalid username.');
   }
 }
 </script>

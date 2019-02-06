@@ -1,11 +1,13 @@
 import express from 'express';
 import socket from 'socket.io';
+import { Server } from 'https';
+import { LoginHandler } from './handlers/LoginHandler';
 
 //
 // Variables
 //
 const port = 5555;
-const app = express();
+const app: express.Express = express();
 
 //
 // Express setup
@@ -20,7 +22,7 @@ const server = app.listen(port, () => console.log(`[DEBUG] Server started on por
 //
 // Socket setup
 //
-const io = socket(server);
+const io: socket.Server = socket(server);
 
 //
 // Socket connection
@@ -28,7 +30,12 @@ const io = socket(server);
 io.on('connection', (socket) => {
   console.log(`[${socket.client.id}] Connection established.`);
 
-  socket.on('disconnect', (data) => {
+  // Create handlers
+  const loginHandler = new LoginHandler(io, socket);
+
+  socket.on('disconnect', () => {
     console.log(`[${socket.client.id}] Connection lost.`);
+
+    loginHandler.disconnect();
   });
 });
