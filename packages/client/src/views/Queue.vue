@@ -22,6 +22,8 @@ import { Component, Vue } from 'vue-property-decorator';
 export default class Queue extends Vue {
   private player1: string = 'not-matthias';
   private player2: string = '';
+
+  // TODO: load players here
 }
 </script>
 
