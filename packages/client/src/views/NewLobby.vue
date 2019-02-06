@@ -15,7 +15,7 @@
             </v-card-text>
 
             <v-card-actions class="pt-0 px-3 pb-3">
-              <v-btn small outline block @click="onCreateLobbyCreate()">Create</v-btn>
+              <v-btn small outline block @click="onCreateLobbyClicked()">Create</v-btn>
             </v-card-actions>
           </v-card>
         </v-flex>
@@ -31,7 +31,7 @@ import { Component, Vue } from 'vue-property-decorator';
 export default class Home extends Vue {
   private name: string = '';
 
-  private onCreateLobbyCreate() {
+  private onCreateLobbyClicked() {
     // TODO: implement logic
   }
 }
