@@ -58,7 +58,7 @@ export default class Login extends Vue {
   /**
    * Check if already logged in
    */
-  async mounted() {
+  private mounted() {
     if (this.$store.getters.loggedIn) this.$router.push({ name: 'home' });
   }
 
@@ -73,20 +73,18 @@ export default class Login extends Vue {
   // Server reponse handlers
   //
   private onLogin() {
-    console.log('[DEBUG] Logged in.');
-
     this.$router.push({ name: 'home' });
     this.$store.dispatch('login', this.username);
   }
 
   private onUsernameExisting() {
-    console.log('[DEBUG] Username existing.');
-    // TODO: show error message
+    // TODO: show proper error message
+    alert('Username already existing.');
   }
 
   private onInvalidUsername() {
-    console.log('[DEBUG] Invalid username.');
-    // TODO: show error message
+    // TODO: show proper error message
+    alert('Invalid username.');
   }
 }
 </script>

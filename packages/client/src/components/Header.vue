@@ -23,7 +23,7 @@ export default class Header extends Vue {
   /**
    * Redirect user to login page if not authenticated.
    */
-  created() {
+  private created() {
     if (!this.$store.getters.loggedIn) this.$router.push({ name: 'login' });
   }
 }
