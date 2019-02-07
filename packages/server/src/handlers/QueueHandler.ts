@@ -91,15 +91,38 @@ export class QueueHandler {
    * Player wants to leave the queue.
    * @param player the player data
    */
-  onLeaveQueue(player: IPlayer) {
+  onLeaveQueue() {
     console.log(`[${this.socket.client.id}] onLeaveQueue called.`);
+
+    //
+    // Find enemy player
+    //
+    let player: IPlayer = { name: '' };
+
+    // Check if player1 is current player
+    let filteredQueue = queues.filter((queue) => queue.player1.name === this.player.name);
+    if (filteredQueue.length > 0) player = filteredQueue[0].player2;
+
+    // Check if player2 is current player
+    filteredQueue = queues.filter((queue) => queue.player2.name === this.player.name);
+    if (filteredQueue.length > 0) player = filteredQueue[0].player1;
+
+    //
+    // Notify enemy
+    //
+    if (player.socket) {
+      player.socket.emit('enemy_left');
+      console.log('Notified enemy');
+    } else {
+      console.log('Didnt notify enemy');
+    }
   }
 
   /**
    * Player disconnected.
    */
   onDisconnect() {
-    this.onLeaveQueue(this.player);
+    this.onLeaveQueue();
   }
 
   /**

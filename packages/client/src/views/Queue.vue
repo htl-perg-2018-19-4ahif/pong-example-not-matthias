@@ -22,8 +22,8 @@ import { IQueue } from '@/interfaces/queue';
 
 @Component
 export default class Queue extends Vue {
-  private player1: string = 'Loading';
-  private player2: string = 'Loading';
+  private player1: string = '-';
+  private player2: string = '-';
 
   /**
    * Register handlers
@@ -78,17 +78,13 @@ export default class Queue extends Vue {
   }
 
   private onEnemyJoined(player: IPlayer) {
-    console.log('enemy joined the queue');
-
     this.$store.dispatch('enemyJoinQueue', player);
     this.updateUsernames();
   }
 
   private onEnemyLeft() {
-    console.log('enemy left the queue');
-
     this.$store.dispatch('enemyLeaveQueue');
-    this.updateUsernames();
+    this.player2 = '-';
   }
 }
 </script>

@@ -54,7 +54,7 @@ const actions: ActionTree<IQueueState, IRootState> = {
     context.commit('PLAYER_JOIN_QUEUE', player);
   },
   playerLeaveQueue(context) {
-    context.commit('LEAVE_QUEUE');
+    context.commit('PLAYER_LEAVE_QUEUE');
   },
 
   //
