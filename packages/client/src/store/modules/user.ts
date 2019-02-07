@@ -47,7 +47,8 @@ const actions: ActionTree<IUserState, IRootState> = {
 // Getters
 //
 const getters: GetterTree<IUserState, IRootState> = {
-  loggedIn: state => state.loggedIn
+  loggedIn: state => state.loggedIn,
+  getUsername: state => state.username
 };
 
 //

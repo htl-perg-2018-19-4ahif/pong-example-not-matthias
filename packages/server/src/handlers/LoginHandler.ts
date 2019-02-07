@@ -32,7 +32,7 @@ export class LoginHandler {
     //
     // Check if username in use
     //
-    if (players.filter((player) => player.name === player.name).length !== 0) {
+    if (players.filter((_player) => _player.name === player.name).length !== 0) {
       this.socket.emit('username_existing');
       return;
     }

@@ -25,8 +25,8 @@ const mutations: MutationTree<IQueueState> = {
   //
   // Player joins/leaves queue
   //
-  PLAYER_JOIN_QUEUE(state, username: string) {
-    state.player1.name = username;
+  PLAYER_JOIN_QUEUE(state, player: IPlayer) {
+    state.player1 = player;
   },
   PLAYER_LEAVE_QUEUE(state) {
     state.player1.name = '';
@@ -35,8 +35,8 @@ const mutations: MutationTree<IQueueState> = {
   //
   // Enemy joins/leaves queue
   //
-  ENEMY_JOIN_QUEUE(state, username: string) {
-    state.player2.name = username;
+  ENEMY_JOIN_QUEUE(state, player: IPlayer) {
+    state.player2 = player;
   },
   ENEMY_LEAVE_QUEUE(state) {
     state.player2.name = '';
@@ -50,8 +50,8 @@ const actions: ActionTree<IQueueState, IRootState> = {
   //
   // Player joins/leaves queue
   //
-  playerJoinQueue(context, username: string) {
-    context.commit('PLAYER_JOIN_QUEUE', username);
+  playerJoinQueue(context, player: IPlayer) {
+    context.commit('PLAYER_JOIN_QUEUE', player);
   },
   playerLeaveQueue(context) {
     context.commit('LEAVE_QUEUE');
@@ -60,8 +60,8 @@ const actions: ActionTree<IQueueState, IRootState> = {
   //
   // Enemy joins/leaves queue
   //
-  enemyJoinQueue(context, username: string) {
-    context.commit('ENEMY_JOIN_QUEUE', username);
+  enemyJoinQueue(context, player: IPlayer) {
+    context.commit('ENEMY_JOIN_QUEUE', player);
   },
   enemyLeaveQueue(context) {
     context.commit('ENEMY_LEAVE_QUEUE');
@@ -72,7 +72,9 @@ const actions: ActionTree<IQueueState, IRootState> = {
 // Getters
 //
 const getters: GetterTree<IQueueState, IRootState> = {
-  canStart: state => state.player1.name && state.player2.name
+  canStart: state => state.player1.name && state.player2.name,
+  getUsernamePlayer1: state => state.player1.name,
+  getUsernamePlayer2: state => state.player2.name
 };
 
 //

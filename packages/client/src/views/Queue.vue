@@ -38,9 +38,7 @@ export default class Queue extends Vue {
    * Join queue.
    */
   private mounted() {
-    console.log('mounted');
-
-    this.$socket.emit('join_queue', { name: this.$store.state.user.username });
+    this.$socket.emit('join_queue', { name: this.$store.getters.getUsername });
   }
 
   /**
@@ -56,8 +54,8 @@ export default class Queue extends Vue {
    * Update usernames from the store
    */
   private updateUsernames() {
-    if (this.$store.state.queue.queue.player1) this.player1 = this.$store.state.queue.queue.player1;
-    if (this.$store.state.queue.queue.player2) this.player2 = this.$store.state.queue.queue.player2;
+    if (this.$store.getters.getUsernamePlayer1) this.player1 = this.$store.getters.getUsernamePlayer1;
+    if (this.$store.getters.getUsernamePlayer2) this.player2 = this.$store.getters.getUsernamePlayer2;
   }
 
   //
@@ -66,13 +64,13 @@ export default class Queue extends Vue {
   private onQueueJoined(queue: IQueue) {
     // Player1 - Waiting for opponent
     if (queue.player1.name && !queue.player2.name) {
-      this.$store.dispatch('playerJoinQueue', queue.player1.name);
+      this.$store.dispatch('playerJoinQueue', queue.player1);
     }
 
     // Player2 - Game is ready
     if (queue.player1.name && queue.player2.name) {
-      this.$store.dispatch('playerJoinQueue', queue.player2.name);
-      this.$store.dispatch('enemyJoinQueue', queue.player1.name);
+      this.$store.dispatch('playerJoinQueue', queue.player2);
+      this.$store.dispatch('enemyJoinQueue', queue.player1);
     }
 
     // Update the usernames
@@ -80,11 +78,15 @@ export default class Queue extends Vue {
   }
 
   private onEnemyJoined(player: IPlayer) {
-    this.$store.dispatch('enemyJoinQueue', player.name);
+    console.log('enemy joined the queue');
+
+    this.$store.dispatch('enemyJoinQueue', player);
     this.updateUsernames();
   }
 
   private onEnemyLeft() {
+    console.log('enemy left the queue');
+
     this.$store.dispatch('enemyLeaveQueue');
     this.updateUsernames();
   }

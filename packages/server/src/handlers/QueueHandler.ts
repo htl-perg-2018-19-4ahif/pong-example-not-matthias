@@ -1,7 +1,7 @@
 import socket, { Socket } from 'socket.io';
 import { IPlayer } from '../interfaces/player';
 import { queues } from '../store';
-import { IQueue } from '../interfaces/queue';
+import { IQueue, IQueueResponse } from '../interfaces/queue';
 
 export class QueueHandler {
   private player: IPlayer = { name: '' };
@@ -24,15 +24,17 @@ export class QueueHandler {
    */
   onJoinQueue(player: IPlayer) {
     console.log(`[${this.socket.client.id}] onJoinQueue called.`);
-    console.log(player);
 
-    // Set the player
-    this.player = player;
+    //
+    // Set the socket and name
+    //
+    player.socket = this.socket;
+    this.player.name = player.name;
 
     //
     // Find games with enemy
     //
-    let filteredQueues = queues.filter((queue) => queue.player1 && !queue.player2);
+    let filteredQueues = queues.filter((queue) => queue.player1.name && !queue.player2.name);
 
     if (filteredQueues.length > 0) {
       console.log('Joining full queue');
@@ -42,10 +44,10 @@ export class QueueHandler {
       queue.player2 = player;
 
       // Notify the enemy
-      if (queue.player1.socket) queue.player1.socket.emit('enemy_joined', player);
+      if (queue.player1.socket) queue.player1.socket.emit('enemy_joined', { name: player.name });
 
       // Notify the player
-      this.socket.emit('queue_joined', queue);
+      this.socket.emit('queue_joined', this.removeSocket(queue));
 
       return;
     }
@@ -53,7 +55,7 @@ export class QueueHandler {
     //
     // Join empty queue (only when nothing else available)
     //
-    filteredQueues = queues.filter((queue) => !queue.player1 && !queue.player2);
+    filteredQueues = queues.filter((queue) => !queue.player1.name && !queue.player2.name);
 
     if (filteredQueues.length > 0) {
       console.log('Joining empty queue');
@@ -63,12 +65,10 @@ export class QueueHandler {
       queue.player1 = player;
 
       // Notify the player
-      this.socket.emit('queue_joined', queue);
+      this.socket.emit('queue_joined', this.removeSocket(queue));
 
       return;
     }
-
-    console.log('Creating new queue');
 
     //
     // Create new queue
@@ -78,11 +78,13 @@ export class QueueHandler {
       player2: { name: '' }
     };
 
+    console.log('Creating new queue');
+
     // Add the queue to the list
     queues.push(queue);
 
     // Notify the player
-    this.socket.emit('queue_joined', queue);
+    this.socket.emit('queue_joined', this.removeSocket(queue));
   }
 
   /**
@@ -98,5 +100,13 @@ export class QueueHandler {
    */
   onDisconnect() {
     this.onLeaveQueue(this.player);
+  }
+
+  /**
+   * Removes the sockets from the response (otherwise the program crashes)
+   * @param queue the queue with the sockets
+   */
+  removeSocket(queue: IQueue): IQueueResponse {
+    return { player1: { name: queue.player1.name }, player2: { name: queue.player2.name } };
   }
 }
