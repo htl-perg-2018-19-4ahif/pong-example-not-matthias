@@ -1,6 +1,7 @@
 import { MutationTree, ActionTree, GetterTree } from 'vuex';
+import { IRootState } from '..';
 
-interface IUserState {
+export interface IUserState {
   username: string;
   loggedIn: boolean;
 }
@@ -21,7 +22,7 @@ const mutations: MutationTree<IUserState> = {
   }
 };
 
-const actions: ActionTree<IUserState, IUserState> = {
+const actions: ActionTree<IUserState, IRootState> = {
   login(context, username: string) {
     context.commit('LOGIN', username);
   },
@@ -30,13 +31,8 @@ const actions: ActionTree<IUserState, IUserState> = {
   }
 };
 
-const getters: GetterTree<IUserState, IUserState> = {
+const getters: GetterTree<IUserState, IRootState> = {
   loggedIn: state => state.loggedIn
 };
 
-export default {
-  state,
-  mutations,
-  actions,
-  getters
-};
+export default { namespaced: true, state, mutations, actions, getters };
