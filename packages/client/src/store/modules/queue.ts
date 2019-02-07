@@ -1,26 +1,21 @@
 import { MutationTree, ActionTree, GetterTree } from 'vuex';
 import { IRootState } from '..';
+import { IPlayer } from '@/interfaces/player';
 
 //
 // Interfaces
 //
-interface IQueue {
-  player1: string;
-  player2: string;
-}
-
 export interface IQueueState {
-  queue: IQueue;
+  player1: IPlayer;
+  player2: IPlayer;
 }
 
 //
 // State
 //
 const state: IQueueState = {
-  queue: {
-    player1: '',
-    player2: ''
-  }
+  player1: { name: '' },
+  player2: { name: '' }
 };
 
 //
@@ -31,20 +26,20 @@ const mutations: MutationTree<IQueueState> = {
   // Player joins/leaves queue
   //
   PLAYER_JOIN_QUEUE(state, username: string) {
-    state.queue.player1 = username;
+    state.player1.name = username;
   },
   PLAYER_LEAVE_QUEUE(state) {
-    state.queue.player1 = '';
+    state.player1.name = '';
   },
 
   //
   // Enemy joins/leaves queue
   //
   ENEMY_JOIN_QUEUE(state, username: string) {
-    state.queue.player2 = username;
+    state.player2.name = username;
   },
   ENEMY_LEAVE_QUEUE(state) {
-    state.queue.player2 = '';
+    state.player2.name = '';
   }
 };
 
@@ -55,10 +50,10 @@ const actions: ActionTree<IQueueState, IRootState> = {
   //
   // Player joins/leaves queue
   //
-  joinQueue(context, username: string) {
+  playerJoinQueue(context, username: string) {
     context.commit('PLAYER_JOIN_QUEUE', username);
   },
-  leaveQueue(context) {
+  playerLeaveQueue(context) {
     context.commit('LEAVE_QUEUE');
   },
 
@@ -77,7 +72,7 @@ const actions: ActionTree<IQueueState, IRootState> = {
 // Getters
 //
 const getters: GetterTree<IQueueState, IRootState> = {
-  canStart: state => state.queue.player1 && state.queue.player2
+  canStart: state => state.player1.name && state.player2.name
 };
 
 //

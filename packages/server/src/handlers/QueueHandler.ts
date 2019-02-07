@@ -4,7 +4,7 @@ import { queues } from '../store';
 import { IQueue } from '../interfaces/queue';
 
 export class QueueHandler {
-  private player: IPlayer = {};
+  private player: IPlayer = { name: '' };
 
   /**
    * Initializes the handlers.
@@ -24,6 +24,7 @@ export class QueueHandler {
    */
   onJoinQueue(player: IPlayer) {
     console.log(`[${this.socket.client.id}] onJoinQueue called.`);
+    console.log(player);
 
     // Set the player
     this.player = player;
@@ -31,16 +32,17 @@ export class QueueHandler {
     //
     // Find games with enemy
     //
-    let filteredQueues = queues.filter((queue) => !queue.player2);
+    let filteredQueues = queues.filter((queue) => queue.player1 && !queue.player2);
 
     if (filteredQueues.length > 0) {
+      console.log('Joining full queue');
       let queue = filteredQueues[0];
 
       // Set the player
       queue.player2 = player;
 
       // Notify the enemy
-      if (queue.player1.socket) queue.player1.socket.emit('enemy_joined', player.name);
+      if (queue.player1.socket) queue.player1.socket.emit('enemy_joined', player);
 
       // Notify the player
       this.socket.emit('queue_joined', queue);
@@ -54,6 +56,7 @@ export class QueueHandler {
     filteredQueues = queues.filter((queue) => !queue.player1 && !queue.player2);
 
     if (filteredQueues.length > 0) {
+      console.log('Joining empty queue');
       let queue = filteredQueues[0];
 
       // Set the player
@@ -65,12 +68,14 @@ export class QueueHandler {
       return;
     }
 
+    console.log('Creating new queue');
+
     //
     // Create new queue
     //
     const queue: IQueue = {
       player1: player,
-      player2: {}
+      player2: { name: '' }
     };
 
     // Add the queue to the list
