@@ -51,6 +51,13 @@ export default class Home extends Vue {
   // Server reponse handlers
   //
   private onLobbyCreated() {
+    // Join queue (TODO: pass lobby per prop and set the queue when Queue.vue created)
+    this.$store.dispatch('joinLobby', {
+      name: this.name,
+      player1: this.$store.state.user.username,
+      player2: ''
+    });
+
     this.$router.push({ name: 'queue' });
   }
 

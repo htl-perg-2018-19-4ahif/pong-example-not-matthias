@@ -17,11 +17,46 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { IUser } from '@/interfaces/user';
 
 @Component
 export default class Queue extends Vue {
-  private player1: string = 'not-matthias';
-  private player2: string = '';
+  private player1: string = this.$store.state.lobby.queue.player1;
+  private player2: string = this.$store.state.lobby.queue.player2;
+
+  /**
+   * Register handlers
+   */
+  private created() {
+    this.$socket.on('enemy_joined', this.onEnemyJoined);
+    this.$socket.on('enemy_left', this.onEnemyLeft);
+  }
+
+  /**
+   * Join queue.
+   */
+  private mounted() {
+    this.$socket.emit('join_queue', this.$store.state.user.username);
+  }
+
+  /**
+   * Leave the queue.
+   */
+  private destroyed() {
+    this.$store.dispatch('leaveQueue');
+    // TODO: show message that the user left the queue
+  }
+
+  //
+  // Server reponse handlers
+  //
+  private onEnemyJoined(username: string) {
+    this.$store.dispatch('enemyJoinQueue', username);
+  }
+
+  private onEnemyLeft(username: string) {
+    this.$store.dispatch('enemyLeaveQueue');
+  }
 }
 </script>
 

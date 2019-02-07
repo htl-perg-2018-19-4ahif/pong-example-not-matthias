@@ -1,56 +1,55 @@
 import { MutationTree, ActionTree, GetterTree } from 'vuex';
 import { IRootState } from '..';
 
+//
+// Interfaces
+//
 export interface ILobby {
   name: string;
+  creator: string;
+  slots: string;
+
   player1: string;
   player2: string;
 }
 
 export interface ILobbyState {
-  queue: ILobby;
   lobbies: ILobby[];
 }
 
+//
+// State
+//
 const state: ILobbyState = {
-  queue: { name: '', player1: '', player2: '' },
   lobbies: []
 };
 
+//
+// Mutations
+//
 const mutations: MutationTree<ILobbyState> = {
-  JOIN_QUEUE(state, lobby: ILobby) {
-    state.queue = lobby;
-  },
-  LEAVE_QUEUE(state) {
-    state.queue.player1 = '';
-  },
-  ENEMY_JOIN_QUEUE(state, lobby: ILobby) {
-    state.queue.player2 = lobby.player2;
-  },
-  ENEMY_LEAVE_QUEUE(state) {
-    state.queue.player2 = '';
+  SET_LOBBIES(state: ILobbyState, lobbies: ILobby[]) {
+    state.lobbies = lobbies;
   }
 };
 
+//
+// Actions
+//
 const actions: ActionTree<ILobbyState, IRootState> = {
-  joinQueue(context, username: string) {
-    context.commit('JOIN_QUEUE', username);
-  },
-  leaveQueue(context) {
-    context.commit('LEAVE_QUEUE');
-  },
-  enemyJoinQueue(context) {
-    context.commit('ENEMY_JOIN_QUEUE');
-  },
-  enemyLeaveQueue(context) {
-    context.commit('ENEMY_LEAVE_QUEUE');
+  setLobbies(context, lobbies: ILobby[]) {
+    context.commit('SET_LOBBIES', lobbies);
   }
 };
 
-const getters: GetterTree<ILobbyState, IRootState> = {
-  isQueuing: state => state.queue.name && state.queue.player1 && state.queue.player2
-};
+//
+// Getters
+//
+const getters: GetterTree<ILobbyState, IRootState> = {};
 
+//
+// Export
+//
 export default {
   state,
   mutations,

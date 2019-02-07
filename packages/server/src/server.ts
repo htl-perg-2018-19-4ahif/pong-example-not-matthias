@@ -1,7 +1,6 @@
 import express from 'express';
 import socket from 'socket.io';
 import { LoginHandler } from './handlers/LoginHandler';
-import { players } from './store';
 import { LobbyHandler } from './handlers/LobbyHandler';
 
 //
@@ -28,6 +27,7 @@ const io: socket.Server = socket(server);
 //
 // Socket connection
 //
+
 io.on('connection', (socket) => {
   console.log(`[${socket.client.id}] Connection established.`);
 

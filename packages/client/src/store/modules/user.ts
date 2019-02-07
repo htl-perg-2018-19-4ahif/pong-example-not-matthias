@@ -1,16 +1,25 @@
 import { MutationTree, ActionTree, GetterTree } from 'vuex';
 import { IRootState } from '..';
 
+//
+// Interfaces
+//
 export interface IUserState {
   username: string;
   loggedIn: boolean;
 }
 
+//
+// State
+//
 const state: IUserState = {
   username: '',
   loggedIn: false
 };
 
+//
+// Mutations
+//
 const mutations: MutationTree<IUserState> = {
   LOGIN(state, username) {
     state.username = username;
@@ -22,8 +31,11 @@ const mutations: MutationTree<IUserState> = {
   }
 };
 
+//
+// Actions
+//
 const actions: ActionTree<IUserState, IRootState> = {
-  login(context, username: string) {
+  login(context, username) {
     context.commit('LOGIN', username);
   },
   logout(context) {
@@ -31,8 +43,14 @@ const actions: ActionTree<IUserState, IRootState> = {
   }
 };
 
+//
+// Getters
+//
 const getters: GetterTree<IUserState, IRootState> = {
   loggedIn: state => state.loggedIn
 };
 
-export default { namespaced: true, state, mutations, actions, getters };
+//
+// Export
+//
+export default { state, mutations, actions, getters };

@@ -40,7 +40,6 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { mapState } from 'vuex';
 
 @Component
 export default class Login extends Vue {
@@ -73,8 +72,10 @@ export default class Login extends Vue {
   // Server reponse handlers
   //
   private onLogin() {
-    this.$router.push({ name: 'home' });
     this.$store.dispatch('login', this.username);
+
+    // Go to the homepage
+    this.$router.push({ name: 'home' });
   }
 
   private onUsernameExisting() {
