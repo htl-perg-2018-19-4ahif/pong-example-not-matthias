@@ -34,10 +34,11 @@ export class QueueHandler {
     //
     // Find games with enemy
     //
+    // Player 1 is set
     let filteredQueues = queues.filter((queue) => queue.player1.name && !queue.player2.name);
 
     if (filteredQueues.length > 0) {
-      console.log('Joining full queue');
+      console.log(`[${this.socket.client.id}] Joining full queue.`);
       let queue = filteredQueues[0];
 
       // Set the player
@@ -52,13 +53,32 @@ export class QueueHandler {
       return;
     }
 
+    // Player 2 is set
+    filteredQueues = queues.filter((queue) => !queue.player1.name && queue.player2.name);
+
+    if (filteredQueues.length > 0) {
+      console.log(`[${this.socket.client.id}] Joining full queue.`);
+      let queue = filteredQueues[0];
+
+      // Set the player
+      queue.player1 = player;
+
+      // Notify the enemy
+      if (queue.player2.socket) queue.player2.socket.emit('enemy_joined', { name: player.name });
+
+      // Notify the player
+      this.socket.emit('queue_joined', this.removeSocket(queue));
+
+      return;
+    }
+
     //
     // Join empty queue (only when nothing else available)
     //
     filteredQueues = queues.filter((queue) => !queue.player1.name && !queue.player2.name);
 
     if (filteredQueues.length > 0) {
-      console.log('Joining empty queue');
+      console.log(`[${this.socket.client.id}] Joining empty queue.`);
       let queue = filteredQueues[0];
 
       // Set the player
@@ -78,7 +98,7 @@ export class QueueHandler {
       player2: { name: '' }
     };
 
-    console.log('Creating new queue');
+    console.log(`[${this.socket.client.id}] Creating new queue.`);
 
     // Add the queue to the list
     queues.push(queue);
@@ -95,17 +115,23 @@ export class QueueHandler {
     console.log(`[${this.socket.client.id}] onLeaveQueue called.`);
 
     //
-    // Find enemy player
+    // Find enemy player and remove the player
     //
     let player: IPlayer = { name: '' };
 
     // Check if player1 is current player
-    let filteredQueue = queues.filter((queue) => queue.player1.name === this.player.name);
-    if (filteredQueue.length > 0) player = filteredQueue[0].player2;
+    let index = queues.findIndex((queue) => queue.player1.name === this.player.name);
+    if (index !== -1) {
+      queues[index].player1 = { name: '' };
+      player = queues[index].player2;
+    }
 
     // Check if player2 is current player
-    filteredQueue = queues.filter((queue) => queue.player2.name === this.player.name);
-    if (filteredQueue.length > 0) player = filteredQueue[0].player1;
+    index = queues.findIndex((queue) => queue.player2.name === this.player.name);
+    if (index !== -1) {
+      player = queues[index].player1;
+      queues[index].player2 = { name: '' };
+    }
 
     //
     // Notify enemy
