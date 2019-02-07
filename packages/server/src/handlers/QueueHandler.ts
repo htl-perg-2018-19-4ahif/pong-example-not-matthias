@@ -112,9 +112,8 @@ export class QueueHandler {
     //
     if (player.socket) {
       player.socket.emit('enemy_left');
-      console.log('Notified enemy');
     } else {
-      console.log('Didnt notify enemy');
+      console.log('[WARNING] Didnt notify enemy');
     }
   }
 
