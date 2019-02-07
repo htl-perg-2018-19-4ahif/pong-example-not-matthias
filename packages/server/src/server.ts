@@ -2,6 +2,7 @@ import express from 'express';
 import socket from 'socket.io';
 import { LoginHandler } from './handlers/LoginHandler';
 import { LobbyHandler } from './handlers/LobbyHandler';
+import { QueueHandler } from './handlers/QueueHandler';
 
 //
 // Variables
@@ -36,6 +37,7 @@ io.on('connection', (socket) => {
   //
   const loginHandler = new LoginHandler(io, socket);
   const lobbyHandler = new LobbyHandler(io, socket);
+  const queueHandler = new QueueHandler(io, socket);
 
   //
   // onDisconnect
@@ -44,5 +46,6 @@ io.on('connection', (socket) => {
     console.log(`[${socket.client.id}] Connection lost.`);
 
     loginHandler.onDisconnect();
+    queueHandler.onDisconnect();
   });
 });

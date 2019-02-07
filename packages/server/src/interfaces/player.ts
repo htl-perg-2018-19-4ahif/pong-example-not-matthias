@@ -1,3 +1,4 @@
 export interface IPlayer {
-  name: string;
+  name?: string;
+  socket?: SocketIO.Socket;
 }

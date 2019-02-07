@@ -5,4 +5,4 @@ import { IQueue } from './interfaces/queue';
 export const players: IPlayer[] = [];
 export const lobbies: ILobby[] = [];
 
-export const queue: IQueue[] = [];
+export const queues: IQueue[] = [];
