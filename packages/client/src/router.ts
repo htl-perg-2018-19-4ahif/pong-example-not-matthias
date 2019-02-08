@@ -33,6 +33,11 @@ export default new Router({
       component: () => import('@/views/Queue.vue')
     },
     {
+      path: '/game',
+      name: 'game',
+      component: () => import('@/views/Game.vue')
+    },
+    {
       path: '*',
       name: '404',
       component: () => import('./views/PageNotFound.vue')
