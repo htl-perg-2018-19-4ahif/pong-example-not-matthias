@@ -31,7 +31,7 @@ export default class Game extends Vue {
   };
 
   private bgColor = 0x383838;
-  private ballColor = 0x00ff00;
+  private ballColor = 0xffffff;
   private player1Color = 0xffa500;
   private player2Color = 0x0000ff;
 
@@ -49,7 +49,7 @@ export default class Game extends Vue {
     rectangle: {
       x: 0,
       y: 0,
-      width: 30,
+      width: 20,
       height: 150
     },
     velocity: { x: 0, y: 0 }
@@ -60,7 +60,7 @@ export default class Game extends Vue {
     rectangle: {
       x: 0,
       y: 0,
-      width: 30,
+      width: 20,
       height: 150
     },
     velocity: { x: 0, y: 0 }
