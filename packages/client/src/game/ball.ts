@@ -26,28 +26,30 @@ export class Ball {
       console.log('player2 collision detected.');
     }
 
+    console.log(this.graphics);
+
     //
     // Check border collision
     //
-    const topBorder = -this.canvas.y / 2 + this.cirlce.radius / 2;
-    const bottomBorder = this.canvas.y / 2 - this.cirlce.radius / 2;
-    const leftBorder = -this.canvas.x / 2 + this.cirlce.radius / 2;
-    const rightBorder = this.canvas.y / 2 - this.cirlce.radius / 2;
+    const topBorder = -this.canvas.y / 2 + this.cirlce.radius;
+    const bottomBorder = this.canvas.y / 2 - this.cirlce.radius;
+    const leftBorder = -this.canvas.x / 2 + this.cirlce.radius;
+    const rightBorder = this.canvas.y / 2 - this.cirlce.radius;
 
     // Top border
-    if (this.graphics.y + this.velocity.y < topBorder) {
+    if (this.graphics.y + this.velocity.y - this.cirlce.radius <= topBorder) {
       this.velocity.y *= -1;
     }
     // Bottom border
-    else if (this.graphics.y + this.velocity.y > bottomBorder) {
+    else if (this.graphics.y + this.velocity.y - this.cirlce.radius >= bottomBorder) {
       this.velocity.y *= -1;
     }
     // Left border
-    else if (this.graphics.x + this.velocity.x < leftBorder) {
+    else if (this.graphics.x + this.velocity.x - this.cirlce.radius <= leftBorder) {
       this.velocity.x *= -1;
     }
     // Right border
-    else if (this.graphics.x + this.velocity.x > rightBorder) {
+    else if (this.graphics.x + this.velocity.x - this.cirlce.radius >= rightBorder) {
       this.velocity.x *= -1;
     }
 

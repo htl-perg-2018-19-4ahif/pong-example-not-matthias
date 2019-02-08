@@ -47,6 +47,7 @@ export default class Game extends Vue {
     width: 20,
     height: 150
   };
+  // NOTE: x/y is in the bottom right corner
   private ballCircle: ICircle = {
     x: 0,
     y: 0,
@@ -56,7 +57,7 @@ export default class Game extends Vue {
   // TODO: velocity should be a percentage of the screen
   private player1: Player = new Player(new PIXI.Graphics(), this.canvas, this.rect1, { x: 0, y: 5 });
   private player2: Player = new Player(new PIXI.Graphics(), this.canvas, this.rect2, { x: 0, y: 5 });
-  private ball: Ball = new Ball(new PIXI.Graphics(), this.canvas, this.ballCircle, { x: 1, y: 3 });
+  private ball: Ball = new Ball(new PIXI.Graphics(), this.canvas, this.ballCircle, { x: 5, y: 5 });
 
   /**
    * Initialize pixi and the game
