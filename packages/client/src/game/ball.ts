@@ -32,16 +32,16 @@ export class Ball {
     // Check border collision
     //
     const topBorder = -this.canvas.y / 2 + this.cirlce.radius;
-    const bottomBorder = this.canvas.y / 2 - this.cirlce.radius;
+    const bottomBorder = this.canvas.y / 2;
     const leftBorder = -this.canvas.x / 2 + this.cirlce.radius;
-    const rightBorder = this.canvas.y / 2 - this.cirlce.radius;
+    const rightBorder = this.canvas.y / 2;
 
     // Top border
     if (this.graphics.y + this.velocity.y - this.cirlce.radius <= topBorder) {
       this.velocity.y *= -1;
     }
     // Bottom border
-    else if (this.graphics.y + this.velocity.y - this.cirlce.radius >= bottomBorder) {
+    else if (this.graphics.y + this.velocity.y >= bottomBorder) {
       this.velocity.y *= -1;
     }
     // Left border
@@ -49,7 +49,7 @@ export class Ball {
       this.velocity.x *= -1;
     }
     // Right border
-    else if (this.graphics.x + this.velocity.x - this.cirlce.radius >= rightBorder) {
+    else if (this.graphics.x + this.velocity.x >= rightBorder) {
       this.velocity.x *= -1;
     }
 
