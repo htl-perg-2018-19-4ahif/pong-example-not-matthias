@@ -6,34 +6,18 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { ICircle, IVector2, IRectangle, ISquare } from '@/utils/math';
 import * as PIXI from 'pixi.js';
-
-interface IBall {
-  graphics: PIXI.Graphics;
-  cirlce: ICircle;
-  velocity: IVector2;
-}
-
-interface IPlayer {
-  graphics: PIXI.Graphics;
-  rectangle: IRectangle;
-  velocity: IVector2;
-}
+import { Player } from '@/game/player';
+import { Ball } from '@/game/ball';
 
 @Component
 export default class Game extends Vue {
+  //
+  // PixiJS
+  //
   private window: ISquare = { x: 0, y: 0 };
   private canvas: ISquare = { x: 800, y: 800 };
 
-  private ballCircle: ICircle = {
-    x: 0,
-    y: 0,
-    radius: 10
-  };
-
   private bgColor = 0x383838;
-  private ballColor = 0xffffff;
-  private player1Color = 0xffa500;
-  private player2Color = 0x0000ff;
 
   private options = {
     antialias: false,
@@ -44,36 +28,38 @@ export default class Game extends Vue {
 
   private app: PIXI.Application = new PIXI.Application(this.canvas.x, this.canvas.y, this.options);
 
-  private player1: IPlayer = {
-    graphics: new PIXI.Graphics(),
-    rectangle: {
-      x: 0,
-      y: 0,
-      width: 20,
-      height: 150
-    },
-    velocity: { x: 0, y: 0 }
+  //
+  // Game Objects
+  //
+  private ballColor = 0xffffff;
+  private player1Color = 0xffa500;
+  private player2Color = 0x0000ff;
+
+  private rect1: IRectangle = {
+    x: 0,
+    y: 0,
+    width: 20,
+    height: 150
+  };
+  private rect2: IRectangle = {
+    x: 0,
+    y: 0,
+    width: 20,
+    height: 150
+  };
+  private ballCircle: ICircle = {
+    x: 0,
+    y: 0,
+    radius: 10
   };
 
-  private player2: IPlayer = {
-    graphics: new PIXI.Graphics(),
-    rectangle: {
-      x: 0,
-      y: 0,
-      width: 20,
-      height: 150
-    },
-    velocity: { x: 0, y: 0 }
-  };
-
-  private ball: IBall = {
-    graphics: new PIXI.Graphics(),
-    cirlce: this.ballCircle,
-    velocity: { x: 5, y: 0 }
-  };
+  // TODO: velocity should be a percentage of the screen
+  private player1: Player = new Player(new PIXI.Graphics(), this.canvas, this.rect1, { x: 0, y: 5 });
+  private player2: Player = new Player(new PIXI.Graphics(), this.canvas, this.rect2, { x: 0, y: 5 });
+  private ball: Ball = new Ball(new PIXI.Graphics(), this.canvas, this.ballCircle, { x: 5, y: 0 });
 
   /**
-   * Initialize pixi and
+   * Initialize pixi and the game
    */
   private mounted() {
     this.$el.appendChild(this.app.view);
@@ -114,7 +100,7 @@ export default class Game extends Vue {
       .drawCircle(this.ball.cirlce.x, this.ball.cirlce.y, this.ball.cirlce.radius)
       .endFill();
 
-    // Create window resize listeners
+    // TODO: Create window resize listeners
 
     // Add them to the stage
     this.app.stage.addChild(this.player1.graphics);
@@ -125,7 +111,12 @@ export default class Game extends Vue {
     this.app.ticker.add(delta => this.gameLoop(delta));
   }
 
-  private gameLoop(delta: number) {}
+  private gameLoop(delta: number) {
+    this.player1.update();
+    this.player2.update();
+
+    this.ball.update(this.player1, this.player2);
+  }
 
   // TODO: keybind hooks
   // TODO: collision detection
