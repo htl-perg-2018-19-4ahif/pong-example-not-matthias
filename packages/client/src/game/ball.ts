@@ -42,7 +42,6 @@ export class Ball {
     //
     // Check player collision
     //
-
     this.player1 = player1;
     this.player2 = player2;
 
@@ -55,32 +54,32 @@ export class Ball {
     //
     // Check border collision
     //
-    const topBorder = -this.canvas.y / 2 + this.cirlce.radius;
-    const bottomBorder = this.canvas.y / 2;
-    const leftBorder = -this.canvas.x / 2 + this.cirlce.radius;
-    const rightBorder = this.canvas.y / 2;
+    const topBorder = -this.canvas.height / 2;
+    const bottomBorder = this.canvas.height / 2;
+    const leftBorder = -this.canvas.width / 2;
+    const rightBorder = this.canvas.width / 2;
 
     // Top border
-    if (this.graphics.y + this.velocity.y - this.cirlce.radius <= topBorder) {
-      this.velocity.y *= -1;
+    if (this.graphics.y - this.cirlce.radius < topBorder) {
+      this.velocity.y = Math.abs(this.velocity.y);
     }
     // Bottom border
-    else if (this.graphics.y + this.velocity.y >= bottomBorder) {
-      this.velocity.y *= -1;
+    else if (this.graphics.y + this.cirlce.radius > bottomBorder) {
+      this.velocity.y = -Math.abs(this.velocity.y);
     }
     // Left border
-    else if (this.graphics.x + this.velocity.x - this.cirlce.radius <= leftBorder) {
-      this.velocity.x *= -1;
+    else if (this.graphics.x - this.cirlce.radius < leftBorder) {
+      this.velocity.x = Math.abs(this.velocity.x);
     }
     // Right border
-    else if (this.graphics.x + this.velocity.x >= rightBorder) {
-      this.velocity.x *= -1;
+    else if (this.graphics.x + this.cirlce.radius > rightBorder) {
+      this.velocity.x = -Math.abs(this.velocity.x);
     }
 
     //
     // Move the ball
     //
-    // this.move(this.velocity.x, this.velocity.y);
+    this.move(this.velocity.x, this.velocity.y);
   }
 
   private move(x: number, y: number) {
