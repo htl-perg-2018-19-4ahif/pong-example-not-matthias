@@ -15,7 +15,7 @@ export default class Game extends Vue {
   // PixiJS
   //
   private window: ISquare = { x: 0, y: 0 };
-  private canvas: ISquare = { x: 800, y: 800 };
+  private canvas: IRectangle = { x: 0, y: 0, width: 800, height: 800 };
 
   private bgColor = 0x383838;
 
@@ -47,7 +47,6 @@ export default class Game extends Vue {
     width: 20,
     height: 150
   };
-  // NOTE: x/y is in the bottom right corner
   private ballCircle: ICircle = {
     x: 0,
     y: 0,

@@ -1,4 +1,4 @@
-import { ICircle, IVector2, IRectangle, ISquare } from '@/utils/math';
+import { ICircle, IVector2, ISquare } from '@/utils/math';
 import * as PIXI from 'pixi.js';
 import { Player } from './player';
 
@@ -29,33 +29,6 @@ export class Ball {
 
     document.onmousedown = e => {
       console.log(this.graphics.x + ' | ' + this.graphics.y);
-
-      const ballTop: ICircle = {
-        x: this.graphics.x,
-        y: this.graphics.y + this.cirlce.radius,
-        radius: this.cirlce.radius
-      };
-      const ballBottom: ICircle = {
-        x: this.graphics.x,
-        y: this.graphics.y - this.cirlce.radius,
-        radius: this.cirlce.radius
-      };
-      const ballLeft: ICircle = {
-        x: this.graphics.x + this.cirlce.radius,
-        y: this.graphics.y,
-        radius: this.cirlce.radius
-      };
-      const ballRight: ICircle = {
-        x: this.graphics.x - this.cirlce.radius,
-        y: this.graphics.y,
-        radius: this.cirlce.radius
-      };
-
-      // console.log(`Top: ${this.isIntersecting(this.player2, ballTop)}`);
-      // console.log(`Bottom: ${this.isIntersecting(this.player2, ballBottom)}`);
-      // console.log(`Left: ${this.isIntersecting(this.player2, ballLeft)}`);
-      // console.log(`Right: ${this.isIntersecting(this.player2, ballRight)}`);
-      this.isColliding(this.player2);
     };
   }
 
@@ -71,11 +44,11 @@ export class Ball {
 
     this.player2 = player2;
 
-    // if (this.isColliding(player1)) {
-    //   console.log('player1 collision detected.');
-    // } else if (this.isColliding(player2)) {
-    //   console.log('player2 collision detected.');
-    // }
+    if (this.isColliding(player1)) {
+      console.log('player1 collision detected.');
+    } else if (this.isColliding(player2)) {
+      console.log('player2 collision detected.');
+    }
 
     //
     // Check border collision
@@ -135,20 +108,20 @@ export class Ball {
       radius: this.cirlce.radius
     };
 
-    this.isIntersecting(player, ballTop);
-
-    // if (
-    //   this.isIntersecting(player, ballTop) ||
-    //   this.isIntersecting(player, ballBottom) ||
-    //   this.isIntersecting(player, ballLeft) ||
-    //   this.isIntersecting(player, ballRight)
-    // )
-    //   console.log('collision detected');
+    // TODO: Check corners
+    if (
+      this.isIntersecting(player, ballTop) ||
+      this.isIntersecting(player, ballBottom) ||
+      this.isIntersecting(player, ballLeft) ||
+      this.isIntersecting(player, ballRight)
+    )
+      return true;
 
     return false;
   }
 
   private isIntersecting(player: Player, ball: ICircle): boolean {
+    // TODO: get the canvas size from Game.vue (won't work for player1)
     const canvasX = 800;
 
     const playerTop = player.graphics.y - player.rectangle.height / 2;
@@ -156,11 +129,11 @@ export class Ball {
     const playerLeft = canvasX / 2 - player.graphics.x - player.rectangle.width - 10;
     const playerRight = canvasX / 2 - player.graphics.x - 10;
 
-    console.log('isIntersecting:');
-    console.log(`Top: ${playerTop < ball.y} - ${playerTop} > ${ball.y}`);
-    console.log(`Bottom: ${playerBottom > ball.y} - ${playerBottom} < ${ball.y}`);
-    console.log(`Left: ${playerLeft < ball.x} - ${playerLeft} > ${ball.x}`);
-    console.log(`Right: ${playerRight > ball.x} - ${playerRight} > ${ball.x}`);
+    // console.log('isIntersecting:');
+    // console.log(`Top: ${playerTop < ball.y} - ${playerTop} > ${ball.y}`);
+    // console.log(`Bottom: ${playerBottom > ball.y} - ${playerBottom} < ${ball.y}`);
+    // console.log(`Left: ${playerLeft < ball.x} - ${playerLeft} > ${ball.x}`);
+    // console.log(`Right: ${playerRight > ball.x} - ${playerRight} > ${ball.x}`);
 
     if (
       playerTop < ball.y && // Top
