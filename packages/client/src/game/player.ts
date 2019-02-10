@@ -6,7 +6,7 @@ export class Player {
 
   constructor(
     public graphics: PIXI.Graphics,
-    public canvas: ISquare,
+    public canvas: IRectangle,
     public rectangle: IRectangle,
     public velocity: IVector2
   ) {
@@ -30,8 +30,8 @@ export class Player {
   public move(x: number, y: number) {
     // TODO (mobile): move to a the position where the user is touching
 
-    const topBorder = -this.canvas.y / 2 + this.rectangle.height / 2;
-    const bottomBorder = this.canvas.y / 2 - this.rectangle.height / 2;
+    const topBorder = -this.canvas.height / 2 + this.rectangle.height / 2;
+    const bottomBorder = this.canvas.height / 2 - this.rectangle.height / 2;
 
     // Top border
     if (this.graphics.y + y < topBorder) {
