@@ -14,15 +14,15 @@ export class Player {
     window.addEventListener('keyup', event => delete this.keysDown[event.keyCode]);
   }
 
-  public update() {
+  public update(delta: number) {
     for (const key in this.keysDown) {
       // Down
       if (parseInt(key, 10) === 40) {
-        this.move(0, this.velocity.y);
+        this.move(0, this.velocity.y * delta);
       }
       // Up
       else if (parseInt(key, 10) === 38) {
-        this.move(0, -this.velocity.y);
+        this.move(0, -this.velocity.y * delta);
       }
     }
   }

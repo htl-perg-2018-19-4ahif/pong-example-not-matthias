@@ -33,7 +33,7 @@ export class Ball {
     };
   }
 
-  public update(player1: Player, player2: Player) {
+  public update(delta: number, player1: Player, player2: Player) {
     // Check for collision with:
     // - Player 1 (Pad)
     // - Player 2 (Pad)
@@ -79,7 +79,7 @@ export class Ball {
     //
     // Move the ball
     //
-    this.move(this.velocity.x, this.velocity.y);
+    this.move(this.velocity.x * delta, this.velocity.y * delta);
   }
 
   private move(x: number, y: number) {
