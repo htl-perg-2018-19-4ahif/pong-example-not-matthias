@@ -1,5 +1,5 @@
 <template>
-  <v-container style="text-align: center"></v-container>
+  <v-container id="container" style="text-align: center"></v-container>
 </template>
 
 <script lang="ts">
@@ -57,7 +57,7 @@ export default class Game extends Vue {
   // TODO: velocity should be a percentage of the screen
   private player1: Player = new Player(new PIXI.Graphics(), this.canvas, this.rect1, { x: 0, y: 5 });
   private player2: Player = new Player(new PIXI.Graphics(), this.canvas, this.rect2, { x: 0, y: 5 });
-  private ball: Ball = new Ball(new PIXI.Graphics(), this.canvas, this.ballCircle, { x: 5, y: 5 });
+  private ball: Ball = new Ball(new PIXI.Graphics(), this.canvas, this.ballCircle, { x: 5, y: 0 });
 
   /**
    * Initialize pixi and the game
@@ -72,8 +72,8 @@ export default class Game extends Vue {
     this.player2.rectangle.x = this.canvas.x - this.player2.rectangle.width - 10;
     this.player2.rectangle.y = this.canvas.y / 2 - this.player2.rectangle.height / 2;
 
-    this.ball.cirlce.x = this.canvas.x / 2 - this.ball.cirlce.radius;
-    this.ball.cirlce.y = this.canvas.y / 2 - this.ball.cirlce.radius;
+    this.ball.cirlce.x = this.canvas.x / 2;
+    this.ball.cirlce.y = this.canvas.y / 2;
 
     // Draw the ball and pads
     this.player1.graphics
