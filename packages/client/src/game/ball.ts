@@ -1,13 +1,14 @@
-import { ICircle, IVector2, ISquare } from '@/utils/math';
+import { ICircle, IVector2, ISquare, IRectangle } from '@/utils/math';
 import * as PIXI from 'pixi.js';
 import { Player } from './player';
 
 export class Ball {
+  private player1!: Player;
   private player2!: Player;
 
   constructor(
     public graphics: PIXI.Graphics,
-    public canvas: ISquare,
+    public canvas: IRectangle,
     public cirlce: ICircle,
     public velocity: IVector2
   ) {
@@ -42,6 +43,7 @@ export class Ball {
     // Check player collision
     //
 
+    this.player1 = player1;
     this.player2 = player2;
 
     if (this.isColliding(player1)) {
@@ -121,13 +123,15 @@ export class Ball {
   }
 
   private isIntersecting(player: Player, ball: ICircle): boolean {
-    // TODO: get the canvas size from Game.vue (won't work for player1)
-    const canvasX = 800;
+    // Canvas (Game.vue): 0|0 to 800|800
+    // Canvas (here): -400|-400 to 400|400
+    // Pads: -370 to -390 | 370 to 390
+    const playerX = player.rectangle.x - this.canvas.width / 2;
 
     const playerTop = player.graphics.y - player.rectangle.height / 2;
     const playerBottom = player.graphics.y + player.rectangle.height / 2;
-    const playerLeft = canvasX / 2 - player.graphics.x - player.rectangle.width - 10;
-    const playerRight = canvasX / 2 - player.graphics.x - 10;
+    const playerLeft = playerX;
+    const playerRight = playerX + player.rectangle.width;
 
     // console.log('isIntersecting:');
     // console.log(`Top: ${playerTop < ball.y} - ${playerTop} > ${ball.y}`);

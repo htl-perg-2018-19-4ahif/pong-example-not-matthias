@@ -26,7 +26,7 @@ export default class Game extends Vue {
     resolution: 1
   };
 
-  private app: PIXI.Application = new PIXI.Application(this.canvas.x, this.canvas.y, this.options);
+  private app: PIXI.Application = new PIXI.Application(this.canvas.width, this.canvas.height, this.options);
 
   //
   // Game Objects
@@ -48,8 +48,8 @@ export default class Game extends Vue {
     height: 150
   };
   private ballCircle: ICircle = {
-    x: 0,
-    y: 0,
+    x: this.canvas.width / 2,
+    y: this.canvas.height / 2,
     radius: 10
   };
 
@@ -66,13 +66,10 @@ export default class Game extends Vue {
 
     // Set the coordinates
     this.player1.rectangle.x = 10;
-    this.player1.rectangle.y = this.canvas.y / 2 - this.player1.rectangle.height / 2;
+    this.player1.rectangle.y = this.canvas.height / 2 - this.player1.rectangle.height / 2;
 
-    this.player2.rectangle.x = this.canvas.x - this.player2.rectangle.width - 10;
-    this.player2.rectangle.y = this.canvas.y / 2 - this.player2.rectangle.height / 2;
-
-    this.ball.cirlce.x = this.canvas.x / 2;
-    this.ball.cirlce.y = this.canvas.y / 2;
+    this.player2.rectangle.x = this.canvas.width - this.player2.rectangle.width - 10;
+    this.player2.rectangle.y = this.canvas.height / 2 - this.player2.rectangle.height / 2;
 
     // Draw the ball and pads
     this.player1.graphics
@@ -118,8 +115,6 @@ export default class Game extends Vue {
     this.ball.update(this.player1, this.player2);
   }
 
-  // TODO: keybind hooks
-  // TODO: collision detection
   // TODO: countdown
 }
 </script>
