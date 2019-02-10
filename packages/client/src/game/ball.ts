@@ -2,6 +2,14 @@ import { ICircle, IVector2, ISquare, IRectangle } from '@/utils/math';
 import * as PIXI from 'pixi.js';
 import { Player } from './player';
 
+enum COLLISION {
+  TOP,
+  BOTTOM,
+  LEFT,
+  RIGHT,
+  NONE
+}
+
 export class Ball {
   private player1!: Player;
   private player2!: Player;
@@ -42,13 +50,34 @@ export class Ball {
     //
     // Check player collision
     //
-    this.player1 = player1;
-    this.player2 = player2;
+    switch (this.isColliding(player1)) {
+      case COLLISION.TOP:
+        this.velocity.y = -Math.abs(this.velocity.y);
+        break;
+      case COLLISION.BOTTOM:
+        this.velocity.y = Math.abs(this.velocity.y);
+        break;
+      case COLLISION.LEFT:
+        this.velocity.x = -Math.abs(this.velocity.x);
+        break;
+      case COLLISION.RIGHT:
+        this.velocity.x = Math.abs(this.velocity.x);
+        break;
+    }
 
-    if (this.isColliding(player1)) {
-      console.log('player1 collision detected.');
-    } else if (this.isColliding(player2)) {
-      console.log('player2 collision detected.');
+    switch (this.isColliding(player2)) {
+      case COLLISION.TOP:
+        this.velocity.y = -Math.abs(this.velocity.y);
+        break;
+      case COLLISION.BOTTOM:
+        this.velocity.y = Math.abs(this.velocity.y);
+        break;
+      case COLLISION.LEFT:
+        this.velocity.x = -Math.abs(this.velocity.x);
+        break;
+      case COLLISION.RIGHT:
+        this.velocity.x = Math.abs(this.velocity.x);
+        break;
     }
 
     //
@@ -87,7 +116,9 @@ export class Ball {
     this.graphics.y += y;
   }
 
-  private isColliding(player: Player): boolean {
+  private isColliding(player: Player): COLLISION {
+    // TODO: Check corners
+
     const ballTop: ICircle = {
       x: this.graphics.x,
       y: this.graphics.y + this.cirlce.radius,
@@ -109,16 +140,23 @@ export class Ball {
       radius: this.cirlce.radius
     };
 
-    // TODO: Check corners
-    if (
-      this.isIntersecting(player, ballTop) ||
-      this.isIntersecting(player, ballBottom) ||
-      this.isIntersecting(player, ballLeft) ||
-      this.isIntersecting(player, ballRight)
-    )
-      return true;
+    if (this.isIntersecting(player, ballTop)) {
+      return COLLISION.TOP;
+    }
 
-    return false;
+    if (this.isIntersecting(player, ballBottom)) {
+      return COLLISION.BOTTOM;
+    }
+
+    if (this.isIntersecting(player, ballLeft)) {
+      return COLLISION.LEFT;
+    }
+
+    if (this.isIntersecting(player, ballRight)) {
+      return COLLISION.RIGHT;
+    }
+
+    return COLLISION.NONE;
   }
 
   private isIntersecting(player: Player, ball: ICircle): boolean {
