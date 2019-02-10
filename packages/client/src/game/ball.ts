@@ -37,6 +37,7 @@ export class Ball {
     };
 
     document.onmousedown = e => {
+      // tslint:disable-next-line:no-console
       console.log(this.graphics.x + ' | ' + this.graphics.y);
     };
   }
