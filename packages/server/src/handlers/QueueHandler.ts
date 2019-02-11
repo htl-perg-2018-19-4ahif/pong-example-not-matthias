@@ -3,6 +3,7 @@ import { IPlayer } from '../interfaces/player';
 import { queues } from '../store';
 import { IQueue, IQueueResponse } from '../interfaces/queue';
 import { GameHandler } from '../handlers/GameHandler';
+import { sleep } from '../utils/sleep';
 
 export class QueueHandler {
   private player: IPlayer = { name: '' };
@@ -167,18 +168,20 @@ export class QueueHandler {
    * @param player the local player
    * @param enemy the enemy player
    */
-  joinFullGame(queue: IQueue, player: IPlayer, enemy: IPlayer) {
-    // Notify the enemy
+  async joinFullGame(queue: IQueue, player: IPlayer, enemy: IPlayer) {
+    // Notify the player and enemy
+    this.socket.emit('queue_joined', this.removeSocket(queue));
     if (queue.player1.socket) queue.player1.socket.emit('enemy_joined', { name: player.name });
 
-    // Notify the player
-    this.socket.emit('queue_joined', this.removeSocket(queue));
+    // Wait 3 seconds before changing the view
+    await sleep(3000);
+
+    // Change the player and enemy view
+    this.socket.emit('change_view');
+    if (queue.player1.socket) queue.player1.socket.emit('change_view');
 
     // Start a new game and the countdown
     const gameHandler = new GameHandler(queue);
-
-    // Change to the "Game" view
-    this.socket.emit('change_view');
-    if (queue.player1.socket) queue.player1.socket.emit('change_view');
+    gameHandler.startCountdown();
   }
 }

@@ -69,6 +69,7 @@ export default class Game extends Vue {
 
     this.$socket.on('start_game', this.onStartGame);
     this.$socket.on('enemy_moved', this.onEnemyMoved);
+    this.$socket.on('count', this.onCount);
   }
 
   /**
@@ -161,19 +162,17 @@ export default class Game extends Vue {
   }
 
   private onStartGame(ballVelocity: IVector2) {
-    console.log('Starting the game');
-    console.log(this.ball.velocity);
-
     // Set the velocity for the ball
     this.ball.velocity = ballVelocity;
 
     // Start the game
     this.gameStarted = true;
-
-    console.log(this.ball.velocity);
   }
 
-  // TODO: countdown
+  private onCount(count: number) {
+    // TODO: show a proper countdown
+    console.log(count);
+  }
 }
 
 // TODO: send start countdown

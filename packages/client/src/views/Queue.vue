@@ -91,8 +91,6 @@ export default class Queue extends Vue {
   }
 
   private onChangeView() {
-    console.log('changing the view');
-
     this.$router.push({ name: 'game' });
   }
 }

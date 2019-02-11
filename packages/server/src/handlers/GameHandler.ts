@@ -19,15 +19,15 @@ export class GameHandler {
   /**
    * Start the countdown for the game.
    */
-  startCountdown() {
+  async startCountdown() {
     const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
     // Countdown
-    for (let i = 1; i < 4; i++) {
+    for (let i = 3; i > 0; i--) {
       if (this.queue.player1.socket) this.queue.player1.socket.emit('count', i);
       if (this.queue.player2.socket) this.queue.player2.socket.emit('count', i);
 
-      sleep(2000);
+      await sleep(2000);
     }
 
     // Start the game
