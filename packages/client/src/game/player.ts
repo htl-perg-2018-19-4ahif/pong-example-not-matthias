@@ -1,10 +1,6 @@
 import { IVector2, IRectangle, ISquare } from '@/utils/math';
 import * as PIXI from 'pixi.js';
-
-interface IPlayerMove {
-  position: IVector2;
-  screen: IRectangle;
-}
+import { IPlayerMove } from '@/interfaces/player';
 
 export class Player {
   private keysDown: boolean[] = [];

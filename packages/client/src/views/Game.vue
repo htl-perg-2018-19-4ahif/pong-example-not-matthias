@@ -8,6 +8,7 @@ import { ICircle, IVector2, IRectangle, ISquare } from '@/utils/math';
 import * as PIXI from 'pixi.js';
 import { Player } from '@/game/player';
 import { Ball } from '@/game/ball';
+import { IPlayer, IPlayerMove } from '@/interfaces/player';
 
 @Component
 export default class Game extends Vue {
@@ -63,6 +64,8 @@ export default class Game extends Vue {
    */
   private created() {
     window.addEventListener('resize', this.adjustCanvasSize);
+
+    this.$socket.on('enemy_moved', this.onEnemyMoved);
   }
 
   /**
@@ -120,7 +123,7 @@ export default class Game extends Vue {
    */
   private gameLoop(delta: number) {
     this.player1.update(delta);
-    this.player2.update(delta);
+    // this.player2.update(delta);
 
     this.ball.update(delta, this.player1, this.player2);
   }
@@ -140,6 +143,17 @@ export default class Game extends Vue {
    */
   private destroyed() {
     window.removeEventListener('resize', this.adjustCanvasSize);
+  }
+
+  //
+  // Server reponse handlers
+  //
+  private onEnemyMoved(data: IPlayerMove) {
+    // TODO: use percentage instead
+    console.log(data);
+
+    this.player2.graphics.x = data.position.x;
+    this.player2.graphics.y = data.position.y;
   }
 
   // TODO: countdown

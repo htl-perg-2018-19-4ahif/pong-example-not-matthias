@@ -8,13 +8,20 @@ export class GameHandler {
   }
 
   onMovePlayer1(data: IPlayerMove) {
-    console.log(`[${this.queue.player1.socket ? this.queue.player1.socket.client.id : 'DEBUG'}] onMovePlayer1.`);
+    // console.log(`[${this.queue.player1.socket ? this.queue.player1.socket.client.id : 'DEBUG'}] onMovePlayer1.`);
+
+    // Return the data to the enemy
+    if (this.queue.player2.socket) this.queue.player2.socket.emit('enemy_moved', data);
 
     // TODO: calculate absolute screen pos
     // TODO: send enemy_moved to the enemy
   }
+
   onMovePlayer2(data: IPlayerMove) {
-    console.log(`[${this.queue.player1.socket ? this.queue.player1.socket.client.id : 'DEBUG'}] onMovePlayer2.`);
+    // console.log(`[${this.queue.player1.socket ? this.queue.player1.socket.client.id : 'DEBUG'}] onMovePlayer2.`);
+
+    // Return the data to the enemy
+    if (this.queue.player1.socket) this.queue.player1.socket.emit('enemy_moved', data);
 
     // TODO: calculate absolute screen pos
     // TODO: send enemy_moved to the enemy
