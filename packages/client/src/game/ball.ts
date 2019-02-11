@@ -11,10 +11,8 @@ enum COLLISION {
 }
 
 export class Ball {
-  private player1!: Player;
-  private player2!: Player;
-
   constructor(
+    private socket: SocketIOClient.Socket,
     public graphics: PIXI.Graphics,
     public canvas: IRectangle,
     public cirlce: ICircle,

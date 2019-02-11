@@ -2,6 +2,7 @@ import socket, { Socket } from 'socket.io';
 import { IPlayer } from '../interfaces/player';
 import { queues } from '../store';
 import { IQueue, IQueueResponse } from '../interfaces/queue';
+import { GameHandler } from '../handlers/GameHandler';
 
 export class QueueHandler {
   private player: IPlayer = { name: '' };
@@ -49,6 +50,9 @@ export class QueueHandler {
 
       // Notify the player
       this.socket.emit('queue_joined', this.removeSocket(queue));
+
+      // Start a new game
+      const gameHandler = new GameHandler(queue);
 
       return;
     }
