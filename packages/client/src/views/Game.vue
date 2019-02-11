@@ -1,5 +1,5 @@
 <template>
-  <v-container id="container" style="text-align: center"></v-container>
+  <v-container id="container" style="text-align: center" @resize="adjustCanvasSize()"></v-container>
 </template>
 
 <script lang="ts">
@@ -59,6 +59,13 @@ export default class Game extends Vue {
   private ball: Ball = new Ball(new PIXI.Graphics(), this.canvas, this.ballCircle, { x: 5, y: -3 });
 
   /**
+   * Register event listeners.
+   */
+  private created() {
+    window.addEventListener('resize', this.adjustCanvasSize);
+  }
+
+  /**
    * Initialize pixi and the game
    */
   private mounted() {
@@ -108,6 +115,9 @@ export default class Game extends Vue {
     this.app.ticker.add(delta => this.gameLoop(delta));
   }
 
+  /**
+   * The main game loop.
+   */
   private gameLoop(delta: number) {
     this.player1.update(delta);
     this.player2.update(delta);
@@ -115,10 +125,23 @@ export default class Game extends Vue {
     this.ball.update(delta, this.player1, this.player2);
   }
 
+  /**
+   * Event handler for resizing the canvas.
+   */
+  adjustCanvasSize() {
+    console.log(`${window.innerWidth} - ${window.innerHeight}`);
+
+    // TODO: Update canvas size
+    // this.app.renderer.resize(window.innerWidth, window.innerHeight);
+  }
+
+  /**
+   * Removes the event listeners.
+   */
+  private destroyed() {
+    window.removeEventListener('resize', this.adjustCanvasSize);
+  }
+
   // TODO: countdown
 }
 </script>
-
-
-<style>
-</style>
