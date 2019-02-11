@@ -28,8 +28,8 @@ export class Ball {
           const canvasMouseY = event.clientY - (canvas.offsetTop - window.pageYOffset);
           const canvasMouseX = event.clientX - (canvas.offsetLeft - window.pageXOffset);
 
-          this.graphics.x = canvasMouseX - 400;
-          this.graphics.y = canvasMouseY - 400;
+          // this.graphics.x = canvasMouseX - 400;
+          // this.graphics.y = canvasMouseY - 400;
         }
       }
     };

@@ -26,6 +26,8 @@ export class QueueHandler {
   onJoinQueue(player: IPlayer) {
     console.log(`[${this.socket.client.id}] onJoinQueue called.`);
 
+    // TODO: use this.player instead of creating a new player
+
     //
     // Set the socket and name
     //
@@ -45,14 +47,11 @@ export class QueueHandler {
       // Set the player
       queue.player2 = player;
 
-      // Notify the enemy
-      if (queue.player1.socket) queue.player1.socket.emit('enemy_joined', { name: player.name });
+      // Set the enemy
+      let enemy = queue.player1;
 
-      // Notify the player
-      this.socket.emit('queue_joined', this.removeSocket(queue));
-
-      // Start a new game
-      const gameHandler = new GameHandler(queue);
+      // Join the full game (notify enemy, start countdown, change view)
+      this.joinFullGame(queue, player, enemy);
 
       return;
     }
@@ -67,11 +66,11 @@ export class QueueHandler {
       // Set the player
       queue.player1 = player;
 
-      // Notify the enemy
-      if (queue.player2.socket) queue.player2.socket.emit('enemy_joined', { name: player.name });
+      // Set the enemy
+      let enemy = queue.player2;
 
-      // Notify the player
-      this.socket.emit('queue_joined', this.removeSocket(queue));
+      // Join the full game (notify enemy, start countdown, change view)
+      this.joinFullGame(queue, player, enemy);
 
       return;
     }
@@ -97,7 +96,7 @@ export class QueueHandler {
     //
     // Create new queue
     //
-    const queue: IQueue = {
+    const queue = {
       player1: player,
       player2: { name: '' }
     };
@@ -160,5 +159,26 @@ export class QueueHandler {
    */
   removeSocket(queue: IQueue): IQueueResponse {
     return { player1: { name: queue.player1.name }, player2: { name: queue.player2.name } };
+  }
+
+  /**
+   * Notify enemy, start countdown, send change_view
+   * @param queue the queue (SHOULD be full)
+   * @param player the local player
+   * @param enemy the enemy player
+   */
+  joinFullGame(queue: IQueue, player: IPlayer, enemy: IPlayer) {
+    // Notify the enemy
+    if (queue.player1.socket) queue.player1.socket.emit('enemy_joined', { name: player.name });
+
+    // Notify the player
+    this.socket.emit('queue_joined', this.removeSocket(queue));
+
+    // Start a new game and the countdown
+    const gameHandler = new GameHandler(queue);
+
+    // Change to the "Game" view
+    this.socket.emit('change_view');
+    if (queue.player1.socket) queue.player1.socket.emit('change_view');
   }
 }

@@ -12,6 +12,8 @@ import { IPlayer, IPlayerMove } from '@/interfaces/player';
 
 @Component
 export default class Game extends Vue {
+  private gameStarted: boolean = false;
+
   //
   // PixiJS
   //
@@ -57,7 +59,7 @@ export default class Game extends Vue {
   // TODO: velocity should be a percentage of the screen
   private player1: Player = new Player(this.$socket, new PIXI.Graphics(), this.canvas, this.rect1, { x: 0, y: 5 });
   private player2: Player = new Player(this.$socket, new PIXI.Graphics(), this.canvas, this.rect2, { x: 0, y: 5 });
-  private ball: Ball = new Ball(this.$socket, new PIXI.Graphics(), this.canvas, this.ballCircle, { x: 5, y: -3 });
+  private ball: Ball = new Ball(this.$socket, new PIXI.Graphics(), this.canvas, this.ballCircle, { x: 0, y: 0 });
 
   /**
    * Register event listeners and handlers.
@@ -65,11 +67,12 @@ export default class Game extends Vue {
   private created() {
     window.addEventListener('resize', this.adjustCanvasSize);
 
+    this.$socket.on('start_game', this.onStartGame);
     this.$socket.on('enemy_moved', this.onEnemyMoved);
   }
 
   /**
-   * Initialize pixi and the game
+   * Initialize pixi and the game.
    */
   private mounted() {
     this.$el.appendChild(this.app.view);
@@ -122,10 +125,11 @@ export default class Game extends Vue {
    * The main game loop.
    */
   private gameLoop(delta: number) {
-    this.player1.update(delta);
-    // this.player2.update(delta);
-
-    this.ball.update(delta, this.player1, this.player2);
+    // Onlny update the position of the player and ball, when both clients are ready.
+    if (this.gameStarted) {
+      this.player1.update(delta);
+      this.ball.update(delta, this.player1, this.player2);
+    }
   }
 
   /**
@@ -156,6 +160,33 @@ export default class Game extends Vue {
     this.player2.graphics.y = data.position.y;
   }
 
+  private onStartGame(ballVelocity: IVector2) {
+    console.log('Starting the game');
+    console.log(this.ball.velocity);
+
+    // Set the velocity for the ball
+    this.ball.velocity = ballVelocity;
+
+    // Start the game
+    this.gameStarted = true;
+
+    console.log(this.ball.velocity);
+  }
+
   // TODO: countdown
 }
+
+// TODO: send start countdown
+// TODO: receive countdown (count: number) - 3, 2, 1
+// TODO: receive start_game (ballVelocity: IVector2)
+
+// TODO: Kick players with anomalies in the ball movement:
+// - e.g. player1's ball is at 10|10 - player2's ball is at 11|12 => VALID MOVE
+// - e.g. player1's ball is at 10|10 - player2's ball is at 200|120 => INVALID MOVE
+// -> Look at the ping and packet loss -> percentage of packet loss = percentage of error tolerance
+
+// TODO: particles for the ball
+// TODO: add lobbies (try multiple games)
+// TODO: add hammer js for mobile controls
+// TODO: scale the page for mobile apps -> look if it's possible in pixijs
 </script>

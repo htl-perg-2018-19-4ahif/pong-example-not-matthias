@@ -34,6 +34,7 @@ export default class Queue extends Vue {
     this.$socket.on('enemy_joined', this.onEnemyJoined);
     this.$socket.on('enemy_left', this.onEnemyLeft);
     this.$socket.on('queue_joined', this.onQueueJoined);
+    this.$socket.on('change_view', this.onChangeView);
   }
 
   /**
@@ -87,6 +88,12 @@ export default class Queue extends Vue {
   private onEnemyLeft() {
     this.$store.dispatch('enemyLeaveQueue');
     this.player2 = '-';
+  }
+
+  private onChangeView() {
+    console.log('changing the view');
+
+    this.$router.push({ name: 'game' });
   }
 }
 </script>

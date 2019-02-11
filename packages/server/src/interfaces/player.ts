@@ -6,7 +6,7 @@ export interface IPlayer {
   socket?: Socket;
 }
 
-export interface IPlayerResponse {
+export interface IClientPlayer {
   name: string;
 }
 
