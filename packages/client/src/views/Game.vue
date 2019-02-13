@@ -67,9 +67,10 @@ export default class Game extends Vue {
   private created() {
     window.addEventListener('resize', this.adjustCanvasSize);
 
+    this.$socket.on('count', this.onCount);
     this.$socket.on('start_game', this.onStartGame);
     this.$socket.on('enemy_moved', this.onEnemyMoved);
-    this.$socket.on('count', this.onCount);
+    this.$socket.on('enemy_left_game', this.onEnemyLeftGame);
   }
 
   /**
@@ -148,6 +149,8 @@ export default class Game extends Vue {
    */
   private destroyed() {
     window.removeEventListener('resize', this.adjustCanvasSize);
+
+    this.$socket.emit('leave_game');
   }
 
   //
@@ -173,19 +176,12 @@ export default class Game extends Vue {
     // TODO: show a proper countdown
     console.log(count);
   }
+
+  private onEnemyLeftGame() {
+    // TODO: Show proper error message
+    alert('Enemy left the game.');
+
+    this.$router.push({ name: 'home' });
+  }
 }
-
-// TODO: send start countdown
-// TODO: receive countdown (count: number) - 3, 2, 1
-// TODO: receive start_game (ballVelocity: IVector2)
-
-// TODO: Kick players with anomalies in the ball movement:
-// - e.g. player1's ball is at 10|10 - player2's ball is at 11|12 => VALID MOVE
-// - e.g. player1's ball is at 10|10 - player2's ball is at 200|120 => INVALID MOVE
-// -> Look at the ping and packet loss -> percentage of packet loss = percentage of error tolerance
-
-// TODO: particles for the ball
-// TODO: add lobbies (try multiple games)
-// TODO: add hammer js for mobile controls
-// TODO: scale the page for mobile apps -> look if it's possible in pixijs
 </script>

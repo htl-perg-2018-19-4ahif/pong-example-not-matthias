@@ -148,7 +148,7 @@ export class QueueHandler {
   }
 
   /**
-   * Player disconnected.
+   * Player from the queue disconnected.
    */
   onDisconnect() {
     this.onLeaveQueue();
