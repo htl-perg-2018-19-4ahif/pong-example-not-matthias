@@ -12,8 +12,6 @@
     <div class="player-2 pa-3 pl-4 my-4">
       <h1 class="display-3">{{ player2 }}</h1>
     </div>
-
-    <v-btn @click="$router.push({ name: 'game' });">Start game</v-btn>
   </v-container>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-  <v-container id="container" style="text-align: center" @resize="adjustCanvasSize()"></v-container>
+  <div id="container" class="pa-5" style="text-align: center" @resize="adjustCanvasSize()"></div>
 </template>
 
 <script lang="ts">
@@ -23,10 +23,9 @@ export default class Game extends Vue {
   private bgColor = 0x383838;
 
   private options = {
-    antialias: false,
     backgroundColor: this.bgColor,
-    transparent: false,
-    resolution: 1
+    antialias: true,
+    autoResize: false
   };
 
   private app: PIXI.Application = new PIXI.Application(this.canvas.width, this.canvas.height, this.options);
@@ -124,6 +123,15 @@ export default class Game extends Vue {
   }
 
   /**
+   * Removes the event listeners.
+   */
+  private destroyed() {
+    window.removeEventListener('resize', this.adjustCanvasSize);
+
+    this.$socket.emit('leave_game');
+  }
+
+  /**
    * The main game loop.
    */
   private gameLoop(delta: number) {
@@ -138,20 +146,27 @@ export default class Game extends Vue {
    * Event handler for resizing the canvas.
    */
   adjustCanvasSize() {
-    console.log(`${window.innerWidth} - ${window.innerHeight}`);
+    const container = document.getElementById('container');
 
-    // TODO: Update canvas size
-    // this.app.renderer.resize(window.innerWidth, window.innerHeight);
+    if (container != null) {
+      const canvas = container.getElementsByTagName('canvas')[0];
+
+      if (canvas != null) {
+        // Update the canvas size
+        const canvasWidth = window.innerWidth - canvas.offsetLeft * 2;
+        const canvasHeight = window.innerHeight - canvas.offsetTop * 2;
+
+        this.app.renderer.resize(canvasWidth, canvasHeight);
+
+        this.canvas.width = this.app.renderer.width;
+        this.canvas.height = this.app.renderer.height;
+
+        // TODO: Update the paddle position
+
+      }
+    }
   }
 
-  /**
-   * Removes the event listeners.
-   */
-  private destroyed() {
-    window.removeEventListener('resize', this.adjustCanvasSize);
-
-    this.$socket.emit('leave_game');
-  }
 
   //
   // Server reponse handlers

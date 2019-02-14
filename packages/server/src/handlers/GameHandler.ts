@@ -69,7 +69,7 @@ export class GameHandler {
       this.queue.player1.socket.emit('enemy_moved', data);
 
       // Delete the player
-      delete this.queue.player1;
+      delete this.queue.player1.socket;
     }
   }
 
@@ -82,7 +82,7 @@ export class GameHandler {
       this.queue.player1.socket.emit('enemy_left_game');
 
       // Delete the player
-      delete this.queue.player2;
+      delete this.queue.player2.socket;
     }
   }
 }
