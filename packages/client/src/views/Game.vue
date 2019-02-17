@@ -112,8 +112,6 @@ export default class Game extends Vue {
       .drawCircle(this.ball.cirlce.x, this.ball.cirlce.y, this.ball.cirlce.radius)
       .endFill();
 
-    // TODO: Create window resize listeners
-
     // Add them to the stage
     this.app.stage.addChild(this.player1.graphics);
     this.app.stage.addChild(this.player2.graphics);
@@ -203,6 +201,9 @@ export default class Game extends Vue {
       text: 'You will be automatically redirected.',
       duration: 2000
     });
+
+    // Leave the game too
+    this.$socket.emit('leave_game');
 
     // Go to the home screen after 3 seconds
     setTimeout(() => this.$router.push({ name: 'home' }), 3000);
