@@ -31,6 +31,7 @@ export class Player {
 
   public move(x: number, y: number) {
     // TODO (mobile): move to a the position where the user is touching
+    // FIXME: Performance improvement: Only send move_player when key pressed and released
 
     //
     // Check for top and bottom collision.

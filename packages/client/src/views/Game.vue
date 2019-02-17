@@ -64,7 +64,7 @@ export default class Game extends Vue {
    * Register event listeners and handlers.
    */
   private created() {
-    window.addEventListener('resize', this.adjustCanvasSize);
+    // window.addEventListener('resize', this.adjustCanvasSize);
 
     this.$socket.on('count', this.onCount);
     this.$socket.on('start_game', this.onStartGame);
@@ -79,6 +79,7 @@ export default class Game extends Vue {
     this.$el.appendChild(this.app.view);
 
     // Set the coordinates
+    // TODO: use coordinates depending on the screen
     this.player1.rectangle.x = 10;
     this.player1.rectangle.y = this.canvas.height / 2 - this.player1.rectangle.height / 2;
 
@@ -126,7 +127,7 @@ export default class Game extends Vue {
    * Removes the event listeners.
    */
   private destroyed() {
-    window.removeEventListener('resize', this.adjustCanvasSize);
+    // window.removeEventListener('resize', this.adjustCanvasSize);
 
     this.$socket.emit('leave_game');
   }
@@ -163,10 +164,10 @@ export default class Game extends Vue {
 
         // TODO: Update the paddle position
 
+        // TODO: Vertical game if height > width
       }
     }
   }
-
 
   //
   // Server reponse handlers
