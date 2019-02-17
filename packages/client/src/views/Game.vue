@@ -1,9 +1,5 @@
 <template>
-  <div>
-    <notifications group="game" closeOnClick/>
-    <div id="container" class="pa-5" style="text-align: center" @resize="adjustCanvasSize()"></div>
-    <v-btn @click="onEnemyLeftGame()"></v-btn>
-  </div>
+  <div id="container" class="pa-3" @resize="adjustCanvasSize()"></div>
 </template>
 
 <script lang="ts">
@@ -193,13 +189,17 @@ export default class Game extends Vue {
   }
 
   private onCount(count: number) {
-    // TODO: show a proper countdown
-    console.log(count);
+    this.$notify({
+      group: 'pong',
+      type: 'success',
+      title: String(count),
+      duration: 1000
+    });
   }
 
   private onEnemyLeftGame() {
     this.$notify({
-      group: 'game',
+      group: 'pong',
       type: 'error',
       title: 'Enemy left the game.',
       text: 'You will be automatically redirected.',
@@ -211,3 +211,9 @@ export default class Game extends Vue {
   }
 }
 </script>
+
+<style scoped>
+#container {
+  text-align: center;
+}
+</style>

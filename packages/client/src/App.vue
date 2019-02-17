@@ -3,6 +3,8 @@
     <v-content>
       <Header/>
 
+      <notifications group="pong"/>
+
       <router-view/>
 
       <Footer/>
