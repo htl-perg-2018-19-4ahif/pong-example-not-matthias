@@ -1,14 +1,18 @@
 <template>
-  <div id="container" class="pa-5" style="text-align: center" @resize="adjustCanvasSize()"></div>
+  <div>
+    <notifications group="game" closeOnClick/>
+    <div id="container" class="pa-5" style="text-align: center" @resize="adjustCanvasSize()"></div>
+    <v-btn @click="onEnemyLeftGame()"></v-btn>
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { ICircle, IVector2, IRectangle, ISquare } from '@/utils/math';
-import * as PIXI from 'pixi.js';
 import { Player } from '@/game/player';
 import { Ball } from '@/game/ball';
 import { IPlayer, IPlayerMove } from '@/interfaces/player';
+import * as PIXI from 'pixi.js';
 
 @Component
 export default class Game extends Vue {
@@ -194,10 +198,16 @@ export default class Game extends Vue {
   }
 
   private onEnemyLeftGame() {
-    // TODO: Show proper error message
-    alert('Enemy left the game.');
+    this.$notify({
+      group: 'game',
+      type: 'error',
+      title: 'Enemy left the game.',
+      text: 'You will be automatically redirected.',
+      duration: 2000
+    });
 
-    this.$router.push({ name: 'home' });
+    // Go to the home screen after 3 seconds
+    setTimeout(() => this.$router.push({ name: 'home' }), 3000);
   }
 }
 </script>

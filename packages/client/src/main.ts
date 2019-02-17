@@ -3,6 +3,7 @@ import App from '@/App.vue';
 import router from '@/router';
 import store from '@/store';
 import Vuetify from 'vuetify';
+import Notifications from 'vue-notification';
 import io from 'socket.io-client';
 
 // Setup the socket (and add it as instance property)
@@ -16,6 +17,7 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css';
 
 // Import the plugins
 Vue.use(Vuetify);
+Vue.use(Notifications);
 
 Vue.config.productionTip = false;
 
