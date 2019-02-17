@@ -79,13 +79,21 @@ export default class Login extends Vue {
   }
 
   private onUsernameExisting() {
-    // TODO: show proper error message
-    alert('Username already existing.');
+    this.$notify({
+      group: 'pong',
+      type: 'error',
+      title: 'Username already existing.',
+      duration: 2000
+    });
   }
 
   private onInvalidUsername() {
-    // TODO: show proper error message
-    alert('Invalid username.');
+    this.$notify({
+      group: 'pong',
+      type: 'error',
+      title: 'Invalid username.',
+      duration: 2000
+    });
   }
 }
 </script>

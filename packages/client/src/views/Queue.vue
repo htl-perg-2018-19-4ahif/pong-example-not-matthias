@@ -46,7 +46,12 @@ export default class Queue extends Vue {
    * Leave the queue.
    */
   private destroyed() {
-    // TODO: show message that the user left the queue
+    this.$notify({
+      group: 'pong',
+      type: 'error',
+      title: 'You left the queue.',
+      duration: 2000
+    });
 
     this.$store.dispatch('playerLeaveQueue');
   }

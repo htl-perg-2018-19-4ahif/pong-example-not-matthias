@@ -174,8 +174,6 @@ export default class Game extends Vue {
   //
   private onEnemyMoved(data: IPlayerMove) {
     // TODO: use percentage instead
-    console.log(data);
-
     this.player2.graphics.x = data.position.x;
     this.player2.graphics.y = data.position.y;
   }
